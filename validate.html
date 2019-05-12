@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>jQuery Validation 插件</title>
+	<script src="vendor/jquery-1.10.0.js"></script>
+	<script src="vendor/jquery.validate-1.13.1.js"></script>
+	<style type="text/css">
+	label.error {
+		margin-left: 10px;
+		color:red;
+	}
+	input.error {
+		border: 1px solid red;
+	}
+</style>
+</head>
+<body>
+	<form id="loginFor">
+		<fieldset>
+			<label for="user">用户名</label>
+			<input type="text" name="user" id="user"><br>
+			<label for="pwd">密码</label>
+			<input type="password" name="password" id="pwd"><br>
+			<label for="repwd">确认密码</label>
+			<input type="password" name="repassword" id="repwd"><br>
+			<label for="email">邮箱</label>
+			<input type="email" name="email" id="email"><br>
+			<label for="tel">手机</label>
+			<input type="tel" name="tel" id="tel"><br>
+			<input type="submit" value="提交">
+		</fieldset>
+	</form>
+	<script type="text/javascript">
+		$(function(){
+			$("#loginFor").validate({
+				rules:{
+					user:{
+						required:true,
+						minlength:6,
+						maxlength:12,
+					},
+					password:{
+						required:true,
+						minlength:6,
+						maxlength:12,
+					},
+					repassword:{
+						equalTo: "#pwd"
+					},
+					email:{
+						required:true,
+						email:true
+					},
+					tel:{
+						required:true,
+						isPhone:true,
+					}
+				},
+				messages:{
+					user:{
+						required:"请输入用户名",
+						minlength:"最少为6个字符",
+						maxlength:"最多为12个"
+					},
+					password:{
+						required:"请输入密码",
+						minlength:"最少为6个字符",
+						maxlength:"最多为12个"
+					},
+					repassword:{
+						equalTo:"密码不一致"
+					},
+					email:{
+						required:"输入邮箱",
+						email:"邮箱不正确"
+					},
+					tel:{
+						required:"请输入手机号",
+					}
+				}
+			});
+			jQuery.validator.addMethod("isPhone", function(value, element) {
+				var length = value.length;
+				var mobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+				return this.optional(element) || (length == 11 && mobile.test(value));
+         }, "请填写正确的手机号码");
+
+		});
+	</script>
+</body>
+</html>
